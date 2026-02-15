@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleSynk Bharat | India's #1 Women's Fashion Aggregator</title>
+    <meta name="description"
+        content="StyleSynk Bharat: The ultimate real-time fashion sync for women. Compare prices and fabric across Only, Max, Symbol, and more specialized Amazon India brands.">
+    <!-- Security & Trust Meta -->
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
+
+    <!-- Production Meta -->
+    <meta property="og:title" content="StyleSynk Bharat | Premium Fashion Sync">
+    <meta property="og:description"
+        content="Aggregating price and quality across all Indian women's fashion platforms.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="StyleSynk Bharat">
+</head>
+
+<body>
+    <!-- Real-Time Activity Toast -->
+    <div id="sync-notifications" class="sync-toast-container"></div>
+
+    <!-- AI Brand Sync Loader -->
+    <div id="app-loader" class="app-loader">
+        <div class="logo-large">StyleSynk <span style="font-weight: 300;">BHARAT</span></div>
+        <div class="loader-bar">
+            <div id="loader-progress" class="loader-progress"></div>
+        </div>
+        <div id="loader-status" class="loader-status">Syncing Bharat Women's Fashion...</div>
+    </div>
+
+    <header>
+        <div class="container nav"
+            style="display: flex; justify-content: space-between; align-items: center; gap: 20px; width: 100%; padding: 15px 0;">
+            <a href="index.html" class="logo"
+                style="text-decoration: none; color: inherit; flex-shrink: 0;">STYLESYNK<span
+                    style="font-size: 0.6rem; vertical-align: super; background: #6366f1; color: white; padding: 2px 4px; border-radius: 4px; margin-left: 5px;">BHARAT</span>
+            </a>
+
+            <!-- Compact Header Search -->
+            <div class="header-search" style="flex-grow: 1; max-width: 500px; position: relative;">
+                <input type="text" id="global-search" placeholder="Search Kurta, Bottom Wear, Only..."
+                    style="width: 100%; padding: 0.8rem 1.5rem; border-radius: 50px; background: var(--glass-bg); border: 1px solid var(--glass-border); color: white; outline: none; font-size: 0.9rem;">
+                <button id="global-search-btn"
+                    style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: var(--primary); border: none; width: 35px; height: 35px; border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem; flex-shrink: 0;">
+                <div id="closet-trigger"
+                    style="cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 0.6rem 1.2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; transition: all 0.3s ease;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="closet-counter" id="closet-count"
+                        style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding-top: 100px;"> <!-- Space for header -->
+
+        <!-- High-Impact Category Navigation -->
+        <section class="category-navigation-section container" style="padding-top: 2rem; margin-bottom: 5rem;">
+            <div style="margin-bottom: 3rem;">
+                <p
+                    style="letter-spacing: 5px; font-size: 0.7rem; color: var(--primary); font-weight: 800; margin-bottom: 0.5rem;">
+                    BHARAT FASHION SYNC ACTIVE</p>
+                <h1 style="font-size: 3rem; font-weight: 300; letter-spacing: -1px;">Premium Collections.</h1>
+
+                <!-- Search Intent / Trending Tags -->
+                <div id="search-intent-bar"
+                    style="margin-top: 1.5rem; display: flex; gap: 10px; flex-wrap: wrap; opacity: 0.8;">
+                    <span
+                        style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); align-self: center; margin-right: 5px; letter-spacing: 1px;">POPULAR:</span>
+                    <a href="categories.html?cat=ONLY" class="intent-tag">#OnlyStyle</a>
+                    <a href="categories.html?cat=MAX" class="intent-tag">#MaxFashion</a>
+                    <a href="categories.html?cat=Kurta" class="intent-tag">#SummerKurtas</a>
+                    <a href="categories.html?cat=SYMBOL" class="intent-tag">#AmazonSymbol</a>
+                    <a href="categories.html?cat=Saree" class="intent-tag">#AffordableSarees</a>
+                    <a href="categories.html?cat=Bottom Wear" class="intent-tag">#CargoPants</a>
+                    <a href="categories.html?cat=AURELIA" class="intent-tag">#EthnicVibes</a>
+                </div>
+
+                <!-- Curated Top Selling Brands Below Search/Intent -->
+                <p
+                    style="letter-spacing: 5px; font-size: 0.65rem; color: var(--text-muted); font-weight: 800; margin-top: 3rem; margin-bottom: -1.5rem; opacity: 0.7;">
+                    TOP BRANDS</p>
+                <div class="hero-brand-boutiques animate-fade-in"
+                    style="margin-top: 3rem; justify-content: flex-start; gap: 2rem;">
+                    <a href="categories.html?cat=ONLY" class="brand-item" data-brand="ONLY">
+                        <div class="brand-icon" style="background: #e11d48; color: white;">O</div>
+                        <div class="brand-label">ONLY</div>
+                    </a>
+                    <a href="categories.html?cat=MAX" class="brand-item" data-brand="MAX">
+                        <div class="brand-icon" style="background: #005696; color: white;">M</div>
+                        <div class="brand-label">MAX</div>
+                    </a>
+                    <a href="categories.html?cat=SYMBOL" class="brand-item" data-brand="SYMBOL">
+                        <div class="brand-icon" style="background: #232f3e; color: white;">S</div>
+                        <div class="brand-label">SYMBOL</div>
+                    </a>
+                    <a href="categories.html?cat=AURELIA" class="brand-item" data-brand="AURELIA">
+                        <div class="brand-icon" style="background: #800000; color: white;">A</div>
+                        <div class="brand-label">AURELIA</div>
+                    </a>
+                    <a href="categories.html?cat=ENAMOR" class="brand-item" data-brand="ENAMOR">
+                        <div class="brand-icon" style="background: #ff4d94; color: white;">E</div>
+                        <div class="brand-label">ENAMOR</div>
+                    </a>
+                    <a href="categories.html?cat=CLOVIA" class="brand-item" data-brand="CLOVIA">
+                        <div class="brand-icon" style="background: #6a1b9a; color: white;">C</div>
+                        <div class="brand-label">CLOVIA</div>
+                    </a>
+                    <a href="categories.html?cat=VERO MODA" class="brand-item" data-brand="VERO MODA">
+                        <div class="brand-icon" style="background: #000; color: white;">V</div>
+                        <div class="brand-label">VERO MODA</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="category-grid">
+                <!-- 1. Dresses (Featured) -->
+                <a href="categories.html?cat=DRESSES" class="category-card featured-wide" style="grid-column: span 2;">
+                    <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1200&q=80"
+                        alt="Summer & Party Dresses">
+                    <div class="category-label">Dresses Collection</div>
+                </a>
+
+                <!-- 2. Tops & T-Shirts -->
+                <a href="categories.html?cat=TOPS" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1200&q=80"
+                        alt="Tops & T-Shirts">
+                    <div class="category-label">Tops & T-Shirts</div>
+                </a>
+
+                <!-- 3. Shirts & Formal Wear -->
+                <a href="categories.html?cat=SHIRTS" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1598554747436-c9293d6a588f?auto=format&fit=crop&w=1200&q=80"
+                        alt="Shirts & Formal Wear">
+                    <div class="category-label">Shirts & Formal Wear</div>
+                </a>
+
+                <!-- 4. Bottom Wear -->
+                <a href="categories.html?cat=BOTTOM WEAR" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1582552938357-32b906df40cb?auto=format&fit=crop&w=1200&q=80"
+                        alt="Trousers & Jeans">
+                    <div class="category-label">Bottom Wear</div>
+                </a>
+
+                <!-- 5. Outerwear -->
+                <a href="categories.html?cat=OUTERWEAR" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=1200&q=80"
+                        alt="Jackets & Coats">
+                    <div class="category-label">Outerwear</div>
+                </a>
+
+                <!-- 6. Activewear -->
+                <a href="categories.html?cat=ACTIVEWEAR" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80"
+                        alt="Activewear & Gym">
+                    <div class="category-label">Activewear</div>
+                </a>
+
+                <!-- 7. Loungewear & Sleepwear -->
+                <a href="categories.html?cat=LOUNGEWEAR" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?auto=format&fit=crop&w=1200&q=80"
+                        alt="Premium Loungewear & Night Wear">
+                    <div class="category-label">Loungewear & Sleepwear</div>
+                </a>
+
+                <!-- 8. Innerwear & Lingerie -->
+                <a href="categories.html?cat=INNERWEAR" class="category-card">
+                    <img src="https://images.pexels.com/photos/1036622/pexels-photo-1036622.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=1200"
+                        alt="Innerwear & Luxury Lingerie">
+                    <div class="category-label">Innerwear & Lingerie</div>
+                </a>
+
+                <!-- 9. Ethnic / Traditional Wear -->
+                <a href="categories.html?cat=ETHNIC WEAR" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1200&q=80"
+                        alt="Ethnic & Traditional">
+                    <div class="category-label">Ethnic Wear</div>
+                </a>
+
+                <!-- 10. Co-Ord Sets -->
+                <a href="categories.html?cat=CO-ORD SETS" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1200&q=80"
+                        alt="Matching Co-Ord Sets">
+                    <div class="category-label">Co-Ord Sets</div>
+                </a>
+
+                <!-- 11. Footwear -->
+                <a href="categories.html?cat=FOOTWEAR" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=1200&q=80"
+                        alt="Footwear & Luxury Heels">
+                    <div class="category-label">Footwear & Heels</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Trending Now Section -->
+        <section class="trending-section container animate-fade-in" style="margin-top: 5rem; margin-bottom: 5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+                <div>
+                    <p
+                        style="letter-spacing: 5px; font-size: 0.7rem; color: var(--primary); font-weight: 800; margin-bottom: 0.5rem;">
+                        LIVE FROM BHARAT</p>
+                    <h2 style="font-size: 2.2rem; font-weight: 300; letter-spacing: -1px;">Trending right now in India.
+                    </h2>
+                </div>
+                <div id="sync-timestamp"
+                    style="font-size: 0.8rem; font-weight: 600; color: #10b981; margin-bottom: 5px;">
+                    <span class="live-dot"
+                        style="display:inline-block; width:8px; height:8px; background:#10b981; border-radius:50%; margin-right:5px; animation: pulse 1.5s infinite;"></span>
+                    SYNCED JUST NOW
+                </div>
+            </div>
+
+            <div id="trending-feed"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
+                <!-- Products injected by app.js -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" alt="Product">
+            </div>
+            <div class="modal-info-side">
+                <div class="modal-brand" id="modal-brand">BRAND</div>
+                <h2 class="modal-title" id="modal-title">Product Name</h2>
+                <div class="modal-price" id="modal-price">$0.00</div>
+
+                <p class="modal-desc" id="modal-desc">This women's fashion item is aggregated in real-time from official
+                    verified stores.</p>
+                <p
+                    style="font-size: 0.75rem; color: rgba(255,255,255,0.6); font-style: italic; margin-top: 0.5rem; border-left: 2px solid var(--primary); padding-left: 10px;">
+                    *Note: Images are for style representation. Click 'Direct Store Link' to view the exact official
+                    product.</p>
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <button class="btn-primary" id="add-to-closet-modal">Add to Closet</button>
+                    <button class="btn-primary" id="direct-store-link"
+                        style="background: var(--glass-bg); border: 1px solid var(--glass-border);">Direct Store
+                        Link</button>
+                </div>
+
+                <!-- Worthiness Report Section -->
+                <div id="worthiness-report"></div>
+
+                <!-- Price Comparison Section -->
+                <div class="comparison-section">
+                    <h3 class="comparison-title">
+                        LIVE BHARAT MARKET COMPARISON
+                    </h3>
+                    <div class="comparison-list" id="comparison-list">
+                        <!-- Comparisons injected here -->
+                    </div>
+                </div>
+
+                <!-- Similar Products Section -->
+                <div class="recommendations-section"
+                    style="margin-top: 2.5rem; border-top: 1px solid var(--glass-border); padding-top: 2rem;">
+                    <h3 style="font-size: 1rem; letter-spacing: 2px; margin-bottom: 1.5rem; opacity: 0.8;">SIMILAR
+                        CHOICES FOR YOU</h3>
+                    <div id="modal-recommendations"
+                        style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                        <!-- Recommended products injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container" style="padding: 6rem 0; text-align: center; border-top: 1px solid var(--glass-border);">
+            <div class="bharat-trust-pledge"
+                style="margin-bottom: 3rem; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); padding: 2rem; border-radius: 20px; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <h3 style="color: #22c55e; font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 1rem;">🛡️ THE BHARAT
+                    TRUST PLEDGE</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6; opacity: 0.8;">
+                    StyleSynk Bharat is a **secure discovery and price-matching engine**. We do **not** handle payments,
+                    store credit card details, or fulfill orders ourselves. Our technology simply bridges the gap
+                    between you and the official brand storefronts. Every transaction happens safely on the brand's
+                    official platform.
+                </p>
+                <div
+                    style="display: flex; justify-content: center; gap: 30px; margin-top: 1.5rem; opacity: 0.7; font-size: 0.75rem; font-weight: 700;">
+                    <span>✓ SECURE HANDOFF</span>
+                    <span>✓ OFFICIAL BRAND INVENTORY</span>
+                    <span>✓ AD-FREE EXPERIENCE</span>
+                </div>
+            </div>
+
+            <p
+                style="font-size: 0.75rem; margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; opacity: 0.5;">
+                <strong>Independent Platform:</strong> StyleSynk Bharat is not officially affiliated with, nor endorsed
+                by Only, Max, Symbol, or any other listed brands. All logos and product images are property of their
+                respective owners and are used for comparative purposes under fair usage.
+            </p>
+            <p
+                style="font-weight: 300; letter-spacing: 3px; letter-spacing: 3px; color: var(--primary); font-size: 0.9rem;">
+                STYLESYNK BHARAT
+                TECH &copy; 2026</p>
+        </div>
+    </footer>
+
+    <!-- Closet Modal -->
+    <div id="closet-modal-ui" class="modal">
+        <div class="modal-content" style="display: block; max-width: 600px; padding: 3rem;">
+            <span class="modal-close" id="close-closet-ui"
+                style="position: absolute; top: 15px; right: 15px;">&times;</span>
+            <h2 style="margin-bottom: 0.5rem;">My Synced Closet</h2>
+            <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 1.5rem;">YOUR SAVED ITEMS FROM ACROSS ALL INDIAN
+                BRANDS.</p>
+            <div id="closet-items-container">
+                <!-- Saved items will appear here -->
+            </div>
+            <div id="closet-empty-state" style="text-align: center; padding: 2rem; opacity: 0.5;">
+                <p>Your closet is empty. Sync some looks!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/app_final_v10.js?v=1739434800"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js');
+            });
+        }
+    </script>
+</body>
+
+</html>

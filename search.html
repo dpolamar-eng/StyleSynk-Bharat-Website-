@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results | StyleSynk Bharat</title>
+    <meta name="description"
+        content="Search results for premium women's fashion on StyleSynk Bharat. Discover and sync the best deals.">
+    <!-- Security & Trust Meta -->
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .search-page-header {
+            padding: 4rem 0 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .results-info {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-count {
+            color: var(--text-muted);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Ensure results are in a row/grid as requested - Smaller cards */
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container nav">
+            <a href="index.html" style="text-decoration: none;">
+                <div class="logo">STYLESYNK<span
+                        style="font-size: 0.6rem; vertical-align: super; background: #6366f1; color: white; padding: 2px 4px; border-radius: 4px; margin-left: 5px;">BHARAT</span>
+                </div>
+            </a>
+
+            <!-- Global Nav Search -->
+            <div class="nav-search">
+                <input type="text" id="nav-search-input" placeholder="Find Saree, Kurti...">
+                <button id="nav-search-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="live-indicator" class="live-sync-indicator">
+                <span class="live-dot"></span>
+                LIVE SYNC ACTIVE
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Discover</a></li>
+                <li><a href="index.html#main-feed">Feed</a></li>
+                <li id="closet-trigger" style="cursor: pointer; position: relative;">
+                    My Closet <span class="closet-counter" id="closet-count">0</span>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="search-page-header animate-fade-in">
+            <a href="javascript:void(0)" onclick="window.history.back()" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Back
+            </a>
+            <h1 class="results-info" id="search-query-display">Displaying Results for "..."</h1>
+            <p class="results-count" id="results-count-display">Syncing matches across Bharat...</p>
+        </div>
+
+        <div class="search-results-grid" id="search-results-feed">
+            <!-- Results injected here -->
+        </div>
+
+        <!-- Non-Sync Exclusive Products Section -->
+        <div id="non-sync-section" style="display: none; margin-top: 4rem;">
+            <div
+                style="text-align: center; margin-bottom: 2rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+                <p
+                    style="font-size: 0.7rem; letter-spacing: 4px; color: #d4af37; font-weight: 700; margin-bottom: 0.5rem;">
+                    EXCLUSIVE COLLECTION</p>
+                <h2
+                    style="font-size: 1.5rem; font-weight: 900; background: linear-gradient(135deg, #d4af37 0%, #f8e5a0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem;">
+                    Non-Sync Luxury Matches</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Premium & boutique pieces curated for you</p>
+            </div>
+            <div class="search-results-grid" id="non-sync-results-feed">
+                <!-- Non-sync results injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Modal (Same as Index) -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" alt="Product">
+            </div>
+            <div class="modal-info-side">
+                <div class="modal-brand" id="modal-brand">BRAND</div>
+                <h2 class="modal-title" id="modal-title">Product Name</h2>
+                <div class="modal-price" id="modal-price">$0.00</div>
+                <p class="modal-desc" id="modal-desc">This women's fashion item is aggregated in real-time from official
+                    verified stores.</p>
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <button class="btn-primary" id="add-to-closet-modal">Add to Closet</button>
+                    <button class="btn-primary" id="direct-store-link"
+                        style="background: var(--glass-bg); border: 1px solid var(--glass-border);">Direct Store
+                        Link</button>
+                </div>
+                <div id="worthiness-report"></div>
+                <div class="comparison-section">
+                    <h3 class="comparison-title">LIVE BHARAT MARKET COMPARISON</h3>
+                    <div class="comparison-list" id="comparison-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Closet Modal -->
+    <div id="closet-modal-ui" class="modal">
+        <div class="modal-content" style="display: block; max-width: 600px; padding: 3rem;">
+            <span class="modal-close" id="close-closet-ui"
+                style="position: absolute; top: 15px; right: 15px;">&times;</span>
+            <h2 style="margin-bottom: 0.5rem;">My Synced Closet</h2>
+            <div id="closet-items-container"></div>
+            <div id="closet-empty-state" style="text-align: center; padding: 2rem; opacity: 0.5;">
+                <p>Your closet is empty. Sync some looks!</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container" style="padding: 6rem 0; text-align: center; border-top: 1px solid var(--glass-border);">
+            <div class="bharat-trust-pledge"
+                style="margin-bottom: 3rem; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); padding: 2rem; border-radius: 20px; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <h3 style="color: #22c55e; font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 1rem;">🛡️ THE BHARAT
+                    TRUST PLEDGE</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6; opacity: 0.8;">
+                    StyleSynk Bharat is a **secure discovery and price-matching engine**. We do **not** handle payments,
+                    store credit card details, or fulfill orders ourselves. Every transaction happens safely on the
+                    brand's official platform.
+                </p>
+            </div>
+
+            <p
+                style="font-size: 0.75rem; margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; opacity: 0.5;">
+                <strong>Independent Platform:</strong> StyleSynk Bharat is not officially affiliated with, nor endorsed
+                by Zara, Myntra, Ajio, or any other listed brands.
+            </p>
+            <p style="font-weight: 800; letter-spacing: 3px; color: var(--primary); font-size: 0.9rem;">STYLESYNK BHARAT
+                TECH &copy; 2026</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/app_final_v10.js?v=1739430000"></script>
+</body>
+
+</html>

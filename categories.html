@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="category-page-title">Browse Categories | StyleSynk Bharat</title>
+    <meta name="description" content="Browse women's fashion by category">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+        rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <meta name="theme-color" content="#6366f1">
+</head>
+
+<body>
+    <!-- Real-Time Activity Toast -->
+    <div id="sync-notifications" class="sync-toast-container"></div>
+
+    <!-- AI Brand Sync Loader -->
+    <div id="app-loader" class="app-loader">
+        <div class="logo-large">StyleSynk <span style="font-weight: 300;">BHARAT</span></div>
+        <div class="loader-bar">
+            <div id="loader-progress" class="loader-progress"></div>
+        </div>
+        <div id="loader-status" class="loader-status">Syncing Bharat Women's Fashion...</div>
+    </div>
+
+    <header>
+        <div class="container nav"
+            style="display: flex; justify-content: space-between; align-items: center; gap: 20px; width: 100%; padding: 10px 0;">
+
+            <!-- Back & Home Navigation -->
+            <div style="display: flex; gap: 10px;">
+                <a href="index.html"
+                    style="cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 0.6rem 1.2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; transition: all 0.3s ease; color: white; font-weight: 600; text-decoration: none;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    Home
+                </a>
+                <a href="javascript:void(0)"
+                    onclick="window.history.length > 1 ? window.history.back() : window.location.href='index.html'"
+                    style="cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 0.6rem 1.2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; transition: all 0.3s ease; color: white; font-weight: 600; text-decoration: none;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">STYLESYNK<span
+                    style="font-size: 0.6rem; vertical-align: super; background: #6366f1; color: white; padding: 2px 4px; border-radius: 4px; margin-left: 5px;">BHARAT</span>
+            </a>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <!-- Wishlist/Closet items preserved -->
+                <div id="closet-trigger"
+                    style="cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 0.6rem 1.2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; transition: all 0.3s ease;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="closet-counter" id="closet-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding-top: 100px; padding-bottom: 3rem;">
+
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h1 class="animate-fade-in" id="category-header">Women's Fashion Categories</h1>
+                <p id="category-subtitle" class="animate-fade-in"
+                    style="animation-delay: 0.2s; font-size: 0.9rem; color: var(--text-muted); margin-top: 1rem;">
+                    Select a category to explore curated products
+                </p>
+            </div>
+
+            <!-- Category Display Info -->
+            <div id="category-info" style="margin-bottom: 2rem; display: none;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h2 id="search-query-display"
+                            style="font-size: 1.5rem; font-weight: 300; letter-spacing: 2px; margin-bottom: 0.5rem;">
+                        </h2>
+                        <p id="results-count-display" style="font-size: 0.9rem; color: var(--text-muted);"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subcategory Filter Bar (Horizontal Scroll) -->
+            <div id="subcategory-filter-bar"
+                style="display: none; margin-bottom: 2rem; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                <div style="display: flex; gap: 1rem; padding: 1rem 0; min-width: max-content;">
+                    <!-- Subcategory chips will be injected here -->
+                </div>
+            </div>
+
+            <!-- Search Results Container -->
+            <div id="search-results-feed" style="display: none;">
+                <!-- Products will be injected here by JavaScript -->
+            </div>
+
+            <!-- Global Recommendations Section (Appears below results) -->
+            <div id="global-recommendations" style="margin-top: 5rem; display: none;">
+                <div style="border-top: 1px solid var(--glass-border); padding-top: 3rem; margin-bottom: 2rem;">
+                    <p
+                        style="letter-spacing: 5px; font-size: 0.6rem; color: var(--primary); font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">
+                        Discover More</p>
+                    <h2 style="font-size: 1.8rem; font-weight: 200; letter-spacing: -0.5px;">Recommended for your style.
+                    </h2>
+                </div>
+                <div id="recommendations-feed"
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 2rem;">
+                    <!-- Recommended products injected here -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">&times;</button>
+            <div class="modal-img-side">
+                <img id="modal-img" src="" alt="Product">
+            </div>
+            <div class="modal-info-side">
+                <div class="modal-brand" id="modal-brand">BRAND</div>
+                <h2 class="modal-title" id="modal-title">Product Name</h2>
+                <div class="modal-price" id="modal-price">$0.00</div>
+
+                <p class="modal-desc" id="modal-desc">This women's fashion item is aggregated in real-time from official
+                    verified stores.</p>
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <button class="btn-primary" id="add-to-closet-modal">Add to Closet</button>
+                    <button class="btn-primary" id="direct-store-link"
+                        style="background: var(--glass-bg); border: 1px solid var(--glass-border);">Direct Store
+                        Link</button>
+                </div>
+
+                <!-- Worthiness Report Section -->
+                <div id="worthiness-report"></div>
+
+                <!-- Price Comparison Section -->
+                <div class="comparison-section">
+                    <h3 class="comparison-title">
+                        LIVE BHARAT MARKET COMPARISON
+                    </h3>
+                    <div class="comparison-list" id="comparison-list">
+                        <!-- Comparisons injected here -->
+                    </div>
+                </div>
+
+                <!-- Similar Products Section (Modal) -->
+                <div class="recommendations-section"
+                    style="margin-top: 2.5rem; border-top: 1px solid var(--glass-border); padding-top: 2rem;">
+                    <h3 style="font-size: 1rem; letter-spacing: 2px; margin-bottom: 1.5rem; opacity: 0.8;">SIMILAR
+                        CHOICES FOR YOU</h3>
+                    <div id="modal-recommendations"
+                        style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                        <!-- Recommended products injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Closet Modal -->
+    <div id="closet-modal-ui" class="modal">
+        <div class="modal-content" style="display: block; max-width: 600px; padding: 3rem;">
+            <span class="modal-close" id="close-closet-ui"
+                style="position: absolute; top: 15px; right: 15px;">&times;</span>
+            <h2 style="margin-bottom: 0.5rem;">My Synced Closet</h2>
+            <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 1.5rem;">YOUR SAVED ITEMS FROM ACROSS ALL INDIAN
+                BRANDS.</p>
+            <div id="closet-items-container">
+                <!-- Saved items will appear here -->
+            </div>
+            <div id="closet-empty-state" style="text-align: center; padding: 2rem; opacity: 0.5;">
+                <p>Your closet is empty. Sync some looks!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/app_final_v10.js?v=1739430000"></script>
+    <script>
+        // Category Page Logic with Sync/Non-Sync Separation
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('cat');
+
+            if (category) {
+                // Show category info and results
+                document.getElementById('category-info').style.display = 'block';
+                document.getElementById('search-results-feed').style.display = 'block';
+
+                // Update titles
+                const displayCategory = category.toUpperCase();
+                document.getElementById('category-page-title').textContent = displayCategory + ' | StyleSynk Bharat';
+                document.getElementById('category-header').textContent = displayCategory;
+                document.getElementById('search-query-display').textContent = displayCategory;
+
+                // 2. Predefined Category Mapping
+                const categoryMap = {
+                    'DRESSES': ['DRESSES'],
+                    'TOPS': ['TOPS', 'SHIRTS', 'HOODIES'],
+                    'SHIRTS': ['SHIRTS'],
+                    'BOTTOM WEAR': ['JEANS', 'TROUSERS', 'LEGGINGS', 'PLAZZO PANTS', 'SKIRTS', 'SHORTS'],
+                    'OUTERWEAR': ['JACKETS AND COATS', 'BLAZERS', 'CARDIGANS AND SWEATERS', 'DENIM JACKETS'],
+                    'ACTIVEWEAR': ['ACTIVEWEAR'],
+                    'LOUNGEWEAR': ['NIGHT DRESS', 'NIGHTY AND NIGHT FROCKS', 'NIGHT WEAR'],
+                    'INNERWEAR': ['BRAS', 'PANTIES'],
+                    'ETHNIC WEAR': ['SAREES', 'KURTI AND KURTA SETS', 'LEHENGAS', 'CHUDIDARS'],
+                    'CO-ORD SETS': ['CO-ORD SETS']
+                };
+
+                // StyleSynk Bharat - Search Intent Engine
+                function matchesCategory(product, searchCat) {
+                    const productCategory = product.category.toUpperCase();
+                    const productName = product.name.toUpperCase();
+                    const search = searchCat.toUpperCase();
+
+                    // 1. Intent Mapping (Occasions/Vibes)
+                    // 1. Intent Mapping (Occasions/Vibes)
+                    const intentMap = {
+                        // Occasions (Broad Discovery)
+                        'DAILY': ['TOP', 'T-SHIRT', 'TEE', 'CASUAL', 'SHORT', 'LOUNGE', 'BASIC'],
+                        'CASUAL': ['TOP', 'T-SHIRT', 'TEE', 'CASUAL', 'SHORT', 'LOUNGE', 'BASIC'],
+                        'EVERYDAY': ['TOP', 'T-SHIRT', 'TEE', 'CASUAL', 'SHORT', 'LOUNGE', 'BASIC'],
+                        'SIMPLE': ['TOP', 'T-SHIRT', 'TEE', 'CASUAL', 'SHORT', 'LOUNGE', 'BASIC', 'MINIMAL'],
+                        'WORK': ['FORMAL', 'SHIRT', 'PANT', 'BLAZER', 'TROUSER', 'OFFICE'],
+                        'OFFICE': ['FORMAL', 'SHIRT', 'PANT', 'BLAZER', 'TROUSER', 'OFFICE'],
+                        'FORMAL': ['FORMAL', 'SHIRT', 'PANT', 'BLAZER', 'TROUSER', 'OFFICE'],
+                        'PARTY': ['PARTY', 'EVENING', 'COCKTAIL', 'GOWN', 'DRESS'],
+                        'EVENT': ['PARTY', 'EVENING', 'COCKTAIL', 'GOWN', 'DRESS'],
+                        'WEDDING': ['SAREE', 'LEHENGA', 'KURTA', 'ETHNIC', 'FESTIVAL', 'ANARKALI', 'HEAVY', 'GOWN'],
+                        'GUEST': ['PARTY', 'DRESS', 'ETHNIC', 'SAREE', 'KURTA', 'FESTIVE'],
+                        'VACATION': ['DRESS', 'SHORT', 'TOP', 'SKIRT', 'BOHEMIAN', 'FLORAL', 'SUMMER', 'BEACH'],
+                        'BEACH': ['DRESS', 'SHORT', 'TOP', 'SKIRT', 'BOHEMIAN', 'FLORAL', 'SUMMER', 'BEACH'],
+                        'FESTIVE': ['KURTA', 'KURTI', 'ETHNIC', 'SAREE', 'LEHENGA', 'ANARKALI', 'SET'],
+                        'TRADITIONAL': ['SAREE', 'LEHENGA', 'KURTA', 'ETHNIC', 'FESTIVAL', 'ANARKALI'],
+                        'GRAND': ['LEHENGA', 'SAREE', 'HEAVY', 'LUXURY', 'ROYAL', 'EMBROIDERED', 'WEDDING', 'FESTIVE'],
+                        'ETHNIC': ['SAREE', 'LEHENGA', 'KURTA', 'ETHNIC', 'FESTIVAL', 'ANARKALI'],
+                        'SUMMER': ['COTTON', 'TOP', 'TEE', 'SHORT', 'SUMMER', 'DRESS', 'FLORAL'],
+                        'WINTER': ['JACKET', 'COAT', 'SWEATER', 'WINTER', 'HOODIE'],
+                        'RAIN': ['JACKET', 'RAIN', 'OUTERWEAR'],
+
+                        // Strictly Product Types
+                        'KURTI': ['KURTA', 'KURTI', 'ANARKALI', 'TUNIC'],
+                        'KURTA': ['KURTA', 'KURTI', 'ANARKALI'],
+                        'SAREE': ['SAREE', 'SARI'],
+                        'LEHENGA': ['LEHENGA', 'GHAGRA', 'CHOLI'],
+                        'JEANS': ['JEANS'],
+                        'TOP': ['TOP', 'TEE', 'T-SHIRT', 'BLOUSE', 'SHIRT'],
+                        'TSHIRT': ['T-SHIRT', 'TEE', 'TOP'],
+                        'DRESS': ['DRESS', 'GOWN', 'MAXI'],
+                        'SKIRT': ['SKIRT'],
+                        'JACKET': ['JACKET', 'COAT', 'BLAZER'],
+                        'COAT': ['COAT', 'JACKET'],
+                        'BLAZER': ['BLAZER', 'COAT', 'JACKET'],
+                        'HOODIE': ['HOODIE', 'SWEATSHIRT'],
+                        'SWEATER': ['SWEATER', 'CARDIGAN', 'PULLOVER'],
+                        'SHORTS': ['SHORT'],
+                        'TROUSER': ['TROUSER', 'PANT', 'CHINO'],
+                        'PANT': ['PANT', 'TROUSER'],
+                        'LEGGING': ['LEGGING', 'TIGHT'],
+                        'PLAZZO': ['PLAZZO', 'PALAZZO'],
+
+                        // Specific Styles/Fabrics (Strict)
+                        'KANCHIVARAM': ['KANJEEVARAM', 'KANCHIPURAM', 'SILK'],
+                        'KANJEEVARAM': ['KANJEEVARAM', 'KANCHIPURAM', 'SILK'],
+                        'MAXI': ['MAXI', 'DRESS', 'LONG'],
+                        'OVERSIZED': ['OVERSIZED', 'LOOSE', 'BOYFRIEND'],
+                        'HIGH WAIST': ['HIGH WAIST'],
+                        'CROP': ['CROP', 'SHORT'],
+                        'CO-ORD': ['CO-ORD', 'SET', 'MATCHING'],
+                        'BODYCON': ['BODYCON', 'FITTED'],
+                        'LOOSE': ['LOOSE', 'RELAXED', 'WIDE LEG'],
+                        'A LINE': ['A LINE', 'FLARED'],
+                        'COTTON': ['COTTON', 'MULMUL'],
+                        'LINEN': ['LINEN'],
+                        'SILK': ['SILK', 'BANARASI', 'KANJEEVARAM'],
+                        'RAYON': ['RAYON'],
+                        'WOOL': ['WOOL', 'WARM'],
+                        'LINGERIE': ['BRAS', 'PANTIES', 'LINGERIE', 'INNERWEAR'],
+                        'NIGHTWEAR': ['NIGHT DRESS', 'NIGHTY', 'NIGHT WEAR', 'PAJAMA', 'PYJAMA'],
+                        'NIGHT WEAR': ['NIGHT DRESS', 'NIGHTY', 'NIGHT WEAR', 'PAJAMA', 'PYJAMA']
+                    };
+
+                    // Advanced Pattern Matching (Intents + Colors + Prices + Brands)
+                    const colors = ['BLACK', 'WHITE', 'RED', 'PINK', 'BLUE', 'GREEN', 'YELLOW', 'ORANGE', 'PURPLE', 'BROWN', 'GREY', 'PASTEL', 'BEIGE', 'GOLD', 'SILVER', 'MAROON', 'NAVY', 'TEAL', 'IVORY', 'KESARI', 'SAFFRON', 'MEHENDI', 'OLIVE', 'RANI PINK', 'MAGENTA'];
+                    const brands = ["BIBA", "WESTSIDE", "MAX", "MYNTRA", "AJIO", "ZUDIO", "FABINDIA", "LIBAS", "MANYAVAR", "GLOBAL DESI", "W FOR WOMAN", "NALLI", "PANTALOONS", "LAKSHITA", "MEENA BAZAAR", "SOCH", "ANOKHI", "AURELIA", "VAN HEUSEN", "ALLEN SOLLY", "PARK AVENUE", "SYMBOL", "ONLY", "VERO MODA", "MARKS & SPENCER", "ZARA", "H&M", "MANGO", "FOREVER 21", "LEVI'S", "UNITED COLORS OF BENETTON", "PUMA", "NIKE", "ADIDAS"];
+
+                    const matchedIntents = [];
+                    let matchedColor = null;
+                    let matchedBrand = null;
+                    let maxPrice = Infinity;
+
+                    // 1. Identify Price Intent
+                    const priceMatch = search.match(/(UNDER|BELOW|LESS|THAN|₹|RS\.?)\s*(\d+)/) || search.match(/(\d+)\s*(UNDER|BELOW)/);
+                    if (priceMatch) {
+                        maxPrice = parseInt(priceMatch[2] || priceMatch[1]);
+                    } else if (search.includes('AFFORDABLE') || search.includes('BUDGET') || search.includes('SALE') || search.includes('CHEAP')) {
+                        maxPrice = 1500; // Default budget threshold
+                    }
+
+                    // 2. Identify Color Intent
+                    for (const color of colors) {
+                        if (search.includes(color)) {
+                            matchedColor = color;
+                            break;
+                        }
+                    }
+
+                    // 3. Identify Brand Intent
+                    for (const brand of brands) {
+                        if (search.includes(brand)) {
+                            matchedBrand = brand;
+                            break;
+                        }
+                    }
+
+                    // 4. Identify Occasion/Style Intent
+                    for (const intent in intentMap) {
+                        if (search.includes(intent)) {
+                            matchedIntents.push(...intentMap[intent]);
+                        }
+                    }
+
+                    // 5. Perform Logical Intersection (Intent && Color && Price && Brand)
+                    let matchesIntent = matchedIntents.length > 0 ? matchedIntents.some(keyword =>
+                        productCategory.includes(keyword) || productName.includes(keyword)
+                    ) : true;
+
+                    let matchesColor = matchedColor ? productName.includes(matchedColor) : true;
+                    let matchesPrice = product.price <= maxPrice;
+                    let matchesBrand = matchedBrand ? product.brand.toUpperCase().includes(matchedBrand) : true;
+
+                    if (matchedIntents.length > 0 || matchedColor || maxPrice !== Infinity || matchedBrand) {
+                        return matchesIntent && matchesColor && matchesPrice && matchesBrand;
+                    }
+
+                    if (categoryMap[search]) {
+                        return productCategory === search || categoryMap[search].some(keyword => productCategory.includes(keyword));
+                    }
+
+                    // Fallback: exact match or contains
+                    return productCategory === search || productCategory.includes(search) || productName.includes(search);
+                }
+
+                // Filter products for this category or brand
+                const filtered = products.filter(p => {
+                    if (p.gender !== 'Women') return false;
+
+                    const searchLower = category.toLowerCase();
+                    const brandMatch = p.brand.toLowerCase().includes(searchLower);
+                    const catMatch = matchesCategory(p, category);
+
+                    return brandMatch || catMatch;
+                });
+
+                // Extract subcategories from predefined mapping or filtered products
+                const subcategories = ['All'];
+                const displayCategoryKey = category.toUpperCase();
+
+                if (categoryMap[displayCategoryKey]) {
+                    categoryMap[displayCategoryKey].forEach(sub => subcategories.push(sub));
+                } else {
+                    const subcatSet = new Set();
+                    filtered.forEach(p => {
+                        const cat = p.category.toUpperCase();
+                        if (!subcatSet.has(cat)) {
+                            subcatSet.add(cat);
+                            subcategories.push(cat);
+                        }
+                    });
+                }
+
+                // Show subcategory filter bar if there are multiple subcategories
+                if (subcategories.length > 2) { // More than just "All" and one subcategory
+                    const filterBar = document.getElementById('subcategory-filter-bar');
+                    const filterContainer = filterBar.querySelector('div');
+                    filterBar.style.display = 'block';
+
+                    // Create filter chips
+                    filterContainer.innerHTML = '';
+                    subcategories.forEach((subcat, index) => {
+                        const chip = document.createElement('button');
+                        chip.className = 'subcategory-chip';
+                        chip.dataset.subcategory = subcat;
+
+                        // Format display name
+                        let displayName = subcat;
+                        if (subcat !== 'All') {
+                            // Remove category prefix (e.g., "JEANS - SKINNY" -> "Skinny")
+                            displayName = subcat.split(' - ').pop().toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+                        }
+                        chip.textContent = displayName;
+
+                        // Styling
+                        chip.style.cssText = `
+                            padding: 0.7rem 1.5rem;
+                            border-radius: 50px;
+                            border: 1px solid var(--glass-border);
+                            background: ' + (index === 0 ? 'var(--primary)' : 'var(--glass-bg)') + ';
+                            borderColor: ' + (index === 0 ? 'var(--primary)' : 'var(--glass-border)') + ';
+                            color: var(--text-light);
+                            font-size: 0.85rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            white-space: nowrap;
+                        `;
+
+                        if (index === 0) chip.classList.add('active');
+
+                        filterContainer.appendChild(chip);
+                    });
+
+                    // Add click handlers after all chips are created
+                    filterContainer.querySelectorAll('.subcategory-chip').forEach(chip => {
+                        chip.addEventListener('click', function () {
+                            // Update active state
+                            filterContainer.querySelectorAll('.subcategory-chip').forEach(c => {
+                                c.classList.remove('active');
+                                c.style.background = 'var(--glass-bg)';
+                                c.style.borderColor = 'var(--glass-border)';
+                            });
+                            this.classList.add('active');
+                            this.style.background = 'var(--primary)';
+                            this.style.borderColor = 'var(--primary)';
+
+                            const selectedSubcat = this.dataset.subcategory;
+
+                            // Filter and re-render products
+                            let toDisplay = filtered;
+                            if (selectedSubcat !== 'All') {
+                                const subLower = selectedSubcat.toUpperCase();
+                                // Extract the keyword (e.g., "CASUAL" from "CASUAL DRESSES", "KURTI" from "KURTIS")
+                                const keyword = subLower.replace(' DRESSES', '').replace(' SETS', '').replace(' SUITS', '').replace(/S$/, '').trim();
+
+                                toDisplay = filtered.filter(p =>
+                                    p.category.toUpperCase() === subLower ||
+                                    p.category.toUpperCase().includes(keyword) ||
+                                    p.name.toUpperCase().includes(keyword)
+                                );
+                            }
+
+                            // Separate into Sync and Non-Sync using the global syncBrands list
+                            const sync = toDisplay.filter(p => syncBrands.some(brand => p.brand.toUpperCase().includes(brand.toUpperCase())));
+                            const nonSync = toDisplay.filter(p => !syncBrands.some(brand => p.brand.toUpperCase().includes(brand.toUpperCase())));
+
+                            document.getElementById('results-count-display').textContent =
+                                `${toDisplay.length} products (${sync.length} Sync, ${nonSync.length} Non-Sync)`;
+
+                            const container = document.getElementById('search-results-feed');
+                            container.innerHTML = '';
+
+                            // Render Sync products
+                            if (sync.length > 0) {
+                                const syncHeader = document.createElement('div');
+                                syncHeader.style.cssText = 'margin: 3rem 0 2rem; text-align: center;';
+                                syncHeader.innerHTML = `
+                                    <div style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); padding: 0.8rem 2rem; border-radius: 50px; margin-bottom: 1rem;">
+                                        <h3 style="font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; letter-spacing: 2px; color: white; margin: 0;">🔥 SYNC COLLECTION</h3>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-muted);">Premium curated fashion from top brands</p>
+                                `;
+                                container.appendChild(syncHeader);
+
+                                const syncGrid = document.createElement('div');
+                                syncGrid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;';
+                                container.appendChild(syncGrid);
+                                renderProducts(sync, syncGrid.id || 'temp-sync', false, syncGrid);
+                            }
+
+                            // Render Non-Sync products
+                            if (nonSync.length > 0) {
+                                const nonSyncHeader = document.createElement('div');
+                                nonSyncHeader.style.cssText = 'margin: 4rem 0 2rem; text-align: center;';
+                                nonSyncHeader.innerHTML = `
+                                    <div style="display: inline-block; background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 0.8rem 2rem; border-radius: 50px; margin-bottom: 1rem;">
+                                        <h3 style="font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; letter-spacing: 2px; margin: 0;">💫 NON-SYNC COLLECTION</h3>
+                                    </div>
+                                    <p style="font-size: 0.9rem; color: var(--text-muted);">Quality fashion from trusted Indian brands</p>
+                                `;
+                                container.appendChild(nonSyncHeader);
+
+                                const nonSyncGrid = document.createElement('div');
+                                nonSyncGrid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;';
+                                container.appendChild(nonSyncGrid);
+                                renderProducts(nonSync, nonSyncGrid.id || 'temp-nonsync', false, nonSyncGrid);
+                            }
+                        });
+                    });
+                }
+
+                // Separate into Sync and Non-Sync based on price comparisons (multi-brand vs unique)
+                const syncProducts = filtered.filter(p => p.comparisons && p.comparisons.length > 0);
+                const nonSyncProducts = filtered.filter(p => !syncProducts.includes(p));
+
+                document.getElementById('results-count-display').textContent =
+                    filtered.length + ' products (' + syncProducts.length + ' Sync, ' + nonSyncProducts.length + ' Non-Sync)';
+
+                const container = document.getElementById('search-results-feed');
+                container.innerHTML = '';
+
+                // Render Sync products first
+                if (syncProducts.length > 0) {
+                    const syncHeader = document.createElement('div');
+                    syncHeader.style.cssText = 'margin: 3rem 0 2rem; text-align: center;';
+                    syncHeader.innerHTML = '<div style="display: inline-block; background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); padding: 0.8rem 2rem; border-radius: 50px; margin-bottom: 1rem;">' +
+                        '<h3 style="font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; letter-spacing: 2px; color: white; margin: 0;">🔥 SYNC COLLECTION</h3>' +
+                        '</div>' +
+                        '<p style="font-size: 0.9rem; color: var(--text-muted);">Comparing the same styles across multiple platforms</p>';
+                    container.appendChild(syncHeader);
+
+                    const syncGrid = document.createElement('div');
+                    syncGrid.className = 'product-grid';
+                    syncGrid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;';
+                    container.appendChild(syncGrid);
+
+                    renderProducts(syncProducts, syncGrid.id || 'temp-sync', false, syncGrid);
+                }
+
+                // Render Non-Sync products
+                if (nonSyncProducts.length > 0) {
+                    const nonSyncHeader = document.createElement('div');
+                    nonSyncHeader.style.cssText = 'margin: 4rem 0 2rem; text-align: center;';
+                    nonSyncHeader.innerHTML = '<div style="display: inline-block; background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 0.8rem 2rem; border-radius: 50px; margin-bottom: 1rem;">' +
+                        '<h3 style="font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; letter-spacing: 2px; margin: 0;">💫 NON-SYNC COLLECTION</h3>' +
+                        '</div>' +
+                        '<p style="font-size: 0.9rem; color: var(--text-muted);">Unique designs exclusive to their specific brand</p>';
+                    container.appendChild(nonSyncHeader);
+
+                    const nonSyncGrid = document.createElement('div');
+                    nonSyncGrid.className = 'product-grid';
+                    nonSyncGrid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;';
+                    container.appendChild(nonSyncGrid);
+
+                    renderProducts(nonSyncProducts, nonSyncGrid.id || 'temp-nonsync', false, nonSyncGrid);
+                }
+
+                if (filtered.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; padding: 4rem 2rem;">' +
+                        '<div style="font-size: 3rem; margin-bottom: 1rem;">😔</div>' +
+                        '<h3 style="font-size: 1.5rem; margin-bottom: 1rem;">No products found</h3>' +
+                        '<p style="color: var(--text-muted);">Try browsing other categories</p>' +
+                        '<a href="index.html" style="display: inline-block; margin-top: 2rem; padding: 1rem 2rem; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: 600;">Back to Categories</a>' +
+                        '</div>';
+                }
+
+                // Global Recommendations Logic (Below page results)
+                const recSection = document.getElementById("global-recommendations");
+                const recFeed = document.getElementById("recommendations-feed");
+                if (recSection && recFeed && filtered.length > 0) {
+                    const baseProduct = filtered[0];
+                    const recs = products
+                        .filter(p => p.category === baseProduct.category && !filtered.some(f => f.id === p.id))
+                        .sort(() => 0.5 - Math.random())
+                        .slice(0, 4);
+
+                    if (recs.length > 0) {
+                        recFeed.innerHTML = "";
+                        renderProducts(recs, "recommendations-feed", false, recFeed);
+                        recSection.style.display = "block";
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
