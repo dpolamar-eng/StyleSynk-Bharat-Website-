@@ -43,7 +43,7 @@ We are looking for contributors! The project is ready for:
  ## ✍️ Author & Credits
 
 - **Developed by:** Disha Polamarasetti
-- **Role:** Data Science Student |HTML, AI & ML Enthusiast
+- **Role:** Data Science Student |Web Development, AI & ML Enthusiast
 - **Objective**:To build a lightweight, open-source fashion aggregator engine that unifies product discovery and price comparison across India's top clothing brands
 - **Contact:**[GitHub](https://github.com/dpolamar-eng) | [LinkedIn Profile](https://www.linkedin.com/in/disha-pol)
 
